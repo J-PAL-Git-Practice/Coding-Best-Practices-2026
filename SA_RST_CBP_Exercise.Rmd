@@ -1,0 +1,742 @@
+---
+title: "Best Ever Wholly Comprehensive Coding Best Practices and Data Visualization Lab™️"
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+    theme: cosmo
+    highlight: tango
+---
+
+<style>
+.tip {
+  background-color: #e7f4e4;
+  border-left: 5px solid #4CAF50;
+  padding: 10px; 10px 4px 10px;
+  margin: 5px 0;
+}
+
+.check-answer {
+  background-color: #e6f7ff;
+  border-left: 5px solid #3399cc;
+  padding: 10px 10px 10px 10px;
+  margin: 10px 0 10px 0;
+  border-radius: 4px;
+  position: relative;
+}
+
+.instructions {
+  background-color: #e7f4e4;
+  border-left: 5px solid #4CAF50;
+  padding: 10px 10px 10px 10px;
+  margin: 5px 0px 10px;
+}
+
+.instructions * {
+  margin-bottom: 0;  
+  padding-bottom: 0; 
+}
+.context-box {
+  background-color: #fff4e5;
+  border-left: 5px solid #ff9800;
+  padding: 10px 10px 3px 10px;
+  margin-bottom: 10px;
+}
+
+.codebook-box {
+  border: 1px solid #3399cc;
+  border-radius: 6px;
+  padding: 12px;
+  background-color: #f0f9ff;
+  margin-top: 16px;
+}
+
+
+
+.codebook-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  margin-top: 12px;
+  border: 1px solid #ddd;
+}
+
+
+.info-box {
+  border-left: 4px solid #999;
+  background-color: #f8f8f8;
+  padding: 10px 10px 10px 10px;
+  border-radius: 4px;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.stata-guide {
+border: 1px solid  #e6b7c8; 
+border-radius: 6px; 
+padding: 12px; 
+background-color: #fff0f5; 
+margin-top: 16px
+}
+
+.R-guide {
+border: 1px solid #c9b5e8; 
+border-radius: 6px; 
+padding: 12px; 
+background-color: #f5f0ff; 
+margin-top: 16px;
+margin-bottom: 16px;
+}
+
+.cl-guide {
+border: 1px solid #b7cfe6; 
+border-radius: 6px; 
+padding: 12px; 
+background-color: #b7cfe6; 
+margin-top: 16px;
+margin-bottom: 16px;
+}
+
+.context-guide {
+border: 1px solid #b7e6d4; 
+border-radius: 6px; 
+padding: 12px; 
+background-color: white; 
+margin-top: 16px;
+margin-bottom: 16px;
+}
+
+.task-container {
+max-width: 1000px;
+margin: 0 auto;
+background: white;
+border-radius: 8px;
+box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+overflow: hidden;
+}
+
+.task-header {
+background: #E35925;
+color: white;
+padding: 10px;
+font-size: 18px;
+font-weight: 600;
+}
+
+.task-list {
+list-style: none;
+padding: 0;
+}
+
+.task-item {
+border-bottom: 1px solid #e5e7eb;
+padding: 20px;
+}
+
+.task-item:last-child {
+border-bottom: none;
+}
+
+.task-title {
+font-size: 18px;
+font-weight: 600;
+color: #1f2937;
+margin-bottom: 8px;
+}
+
+.task-description {
+font-size: 14px;
+color: #6b7280;
+margin-bottom: 16px;
+line-height: 1.5;
+}
+
+.sub-tasks {
+list-style: none;
+padding: 0;
+margin-left: 20px;
+border-left: 3px solid #e5e7eb;
+padding-left: 20px;
+}
+
+.sub-task {
+margin-bottom: 12px;
+}
+
+.sub-task:last-child {
+margin-bottom: 0;
+}
+
+.sub-task-title {
+font-size: 15px;
+font-weight: 500;
+color: #374151;
+margin-bottom: 4px;
+}
+
+.sub-task-description {
+font-size: 13px;
+color: #6b7280;
+line-height: 1.4;
+}
+
+.task-count {
+display: inline-block;
+font-size: 12px;
+color: #6b7280;
+background: #f3f4f6;
+padding: 2px 8px;
+border-radius: 12px;
+margin-left: 8px;
+}
+
+</style>
+
+# Introduction 
+This exercise is designed to give you a practical application of Coding Best Practices (folder structure, data cleaning, de-identification), git and github, and data visualization in Stata and R. In this exercise, you'll use data from a past J-PAL randomized evaluation of two education programs in India: Continuous and Comprehensive Evaluation (CCE) and Teaching at the Right Level (TaRL) -- this is roughly data you used in the power and randomization lab.  You’ll work in groups to complete the tasks assigned to you in this markdown file. This will require good coding, better collaboration, and of course watching the pre-recorded research transparency lecture if you haven't already. 
+
+The study context is the same that we've been working with all week (TaRL and CCE), but I've copied the description from the power and randomization lab below in case you'd like a refresher! 
+
+<details class="context-guide"><summary> *Study context* </summary>
+The study was conducted across 500 lower and upper primary government schools in two districts of Haryana, India, during the 2012–13 academic year. The intervention focused on improving foundational learning by testing two programs—CCE, a policy emphasizing regular assessments and student tracking, and TaRL, an instructional approach that tailors teaching to children’s learning levels. The randomized evaluation of the program was based on a **factorial design**, where schools were randomly assigned in equal proportions to one of four groups.
+
+<table style="border-collapse: collapse; width: 100%; margin-top: 20px;">
+  <thead style="background-color: #f2f2f2;">
+    <tr>
+      <th style="border: 1px solid #ddd; padding: 8px;">Treatment Group</th>
+      <th style="border: 1px solid #ddd; padding: 8px;">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 1px solid #ddd; padding: 8px;">T1</td>
+      <td style="border: 1px solid #ddd; padding: 8px;">Comparison group: Schools within a school-campus assigned to this group follow the standard government curriculum.</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid #ddd; padding: 8px;">T2</td>
+      <td style="border: 1px solid #ddd; padding: 8px;">CCE only: Schools within a school-campus assigned to this group recieve CCE only. </td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid #ddd; padding: 8px;">T3</td>
+      <td style="border: 1px solid #ddd; padding: 8px;">TARL only: Schools within a school-campus assigned to this group receive TARL only.</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid #ddd; padding: 8px;">T4</td>
+      <td style="border: 1px solid #ddd; padding: 8px;">CCE + TARL: Schools within a school-campus assigned to this group receive both TARL and CCE. </td>
+    </tr>
+  </tbody>
+</table>
+</details>
+
+<div class="context-box">
+📚 Berry, James, Priya Mukherji, Shobhini Mukherji, and Marc Shotland. (2018). [*Failure of Frequent Assessment: An Evaluation of India’s Continuous and Comprehensive Evaluation Program*](https://www.povertyactionlab.org/sites/default/files/research-paper/Failure-of-Frequent-Assessment_berry_kannan_mukherji_shotland_Nov2018.pdf). J-PAL South Asia.
+</div>
+
+**All credit goes to Diana Horvath for creating this template**
+
+## Data description
+The authors of the study collected data on student learning outcomes at baseline and endline, as well as teacher and school characteristics. While the real study conducted two experiments in lower and upper primary schools, this exercise will only use the lower primary school data, labeled as **primary_cleaned_adjusted.dta**. The RCT evaluated the impact of the programs on four learning outcomes: oral Hindi, oral math, written Hindi, and written math. This is roughly the same data as you used in the randomization and power lab, but this time we'll be working with the endline measures as well! We've also added some **FAKE** PII to the data to allow some de-identification practice (see note below).
+
+**Note that we have modified the data from the project for the purposes of this exercise. The research team, for example, did NOT publish data containing PII**
+
+# Task list
+It’s crunch time on the project:
+
+ - The PIs are preparing for the first round of analysis 
+ - The implementation partner keeps emailing for summary statistics on the sample
+ - You just joined the project and the previous RA, Non-reproducible Nick, left the folder structure, data, and code a mess
+
+
+The research manager on the project, Organized Olivia, has helpfully curated requests from
+PIs and partners into the task list below.
+
+<div class="instructions">
+<strong>Instructions: </strong>Browse through the tasks below. The first task (fixing the folder structure) is the only one that necessarily needs to be done in order. After that, feel free to pick and choose based on what you most want to practice. 
+<br><br>
+<i> You'll notice there are a lot of tasks here! If you want further practice collaborating using git and github, consider working as a team in a shared repository.  As a reminder, here is a copy of the most advanced workflow:
+
+ - Pull in the repo
+ - Checkout to a new branch that is named intuitively for what you're doing
+ - Make your update to the package (complete your task!)
+ - Add and commit
+ - Push your branch to the repo
+ - Submit a pull request
+ - Merge and delete
+ 
+For a reminder on the exact commands to use, see the dropdown below.
+</i>
+
+<strong> You likely will not have time to do all tasks in this exercise (even if working in a group), so read through the tasks and choose the ones you most want to practice with </strong>
+
+<br><br>
+There are hints at the bottom for each set of tasks, and I'll be uploading answers to select tasks to the repos later.
+</div>
+
+<details class="cl-guide"><summary> *Git commands* </summary>
+```{bash, echo=TRUE, eval=FALSE}
+##Pull in the repo
+git pull origin main
+
+## Checkout to a new branch that is named intuitively for what you're doing
+git checkout -b YOUR-BRANCH-NAME
+
+## Then make your update to the package (complete your task!)
+
+## Add and commit:
+git add FILENAME(S) YOU CHANGED
+git commit -m "DESCRIPTIVE MESSAGE"
+
+## Push your branch to the repo
+git push origin YOUR-BRANCH-NAME
+
+### Done in github:
+  # - Submit a pull request
+  # - Merge and delete
+```
+</details>
+
+<div class="task-container">
+<div class="task-header">
+Tasks
+</div>
+
+<ul class="task-list">
+<li class="task-item">
+<h3 class="task-title">
+Clean up folder structure
+<span class="task-count">3 subtasks</span>
+</h3>
+<p class="task-description">
+<strong>DO THIS FIRST</strong>
+The project needs to be cleaned up -- I can't find anything! Design and implement a good base folder structure; see the [data description](#data-description) for more information on the data that is included in the repo.
+</p>
+
+<ul class="sub-tasks">
+<li class="sub-task">
+<h4 class="sub-task-title">Create a good folder structure</h4>
+<p class="sub-task-description">We have data, code, and documentation in this project -- and probably each of those are going to need some good subfolders too...</p>
+</li>
+<li class="sub-task">
+<h4 class="sub-task-title">Move files into appropriate folders and archive old documentation</h4>
+<p class="sub-task-description">I think that's pretty self-explanatory</p>
+</li>
+<li class="sub-task">
+<h4 class="sub-task-title">Create a skeleton main.do (or .R) file</h4>
+<p class="sub-task-description">You will be creating at least a few new do files or R scripts! Create the skeleton of a main script that will be used to set globals and call in the other coding files created by your group.</p>
+</li>
+</ul>
+</li>
+
+<li class="task-item">
+<h3 class="task-title">
+De-identification
+<span class="task-count">6 subtasks</span>
+</h3>
+<p class="task-description">
+Turns out Non-reproducible Nick was also Not-very-ethical Nick too -- some of this data is definitely still identified! The first four sub-tasks involve finishing the de-identification before we share the data with the PIs. These tasks can be done across one or several scripts, but if across several, they should all be called in by a main R or do-file. The sub-tasks are described below, but there's also a (mostly) blank de-id do-file and R script in the folder that contains the sub-tasks as well.
+
+The last sub-task is about preparing the data to send to PIs as the unencrypted final data. When we do this, we want to make sure that all baseline de-identification is done. But we also want to help the PIs prepare the rest of the data for data publication -- when we do this, we want to think very carefully about indirect identifiers and their distributions across the dataset *as well as* the potential of the dataset to be linked to those outside of the study context (for example, if there is easily available admin data on students in Haryana). For this task, we don't need to go ahead and do the de-identification, but we should prepare a report for the PIs on what they may want to further de-identify (and how!) before they publish the data.
+</p>
+
+<ul class="sub-tasks">
+<li class="sub-task">
+<h4 class="sub-task-title">1. De-identify direct identifiers</h4>
+<p class="sub-task-description">Identify and mask the direct identifiers in the data by replacing them with the string "REMOVED FOR RESPONDENT PRIVACY"</p>
+</li>
+<li class="sub-task">
+<h4 class="sub-task-title">2. Aggregate birth dates</h4>
+<p class="sub-task-description">Date of birth can be an indirect identifier. Aggregate date of birth to the month-year level, and then check the distribution of responses. If there are still a lot of months with only a few observations, consider aggregating to ranges of month-years.</p>
+</li>
+<li class="sub-task">
+<h4 class="sub-task-title">3. Encode the Village variable</h4>
+<p class="sub-task-description">Village names are very strong indirect identifiers, but they still contain helpful information! Encode the village name so that groups can still be made by village, but you can no longer tell which group is in which village. Save a crosswalk to an appropriate folder. </p>
+</li>
+<li class="sub-task">
+<h4 class="sub-task-title">4. "Top-code" days missed in school </h4>
+<p class="sub-task-description">Some students missed a lot of school in either the baseline or endline periods! These students may be identifiable by other people in the area if they are an outlier in the data. Topcode days missed in both the baseline and endline variables at a reasonable level based on the underlying data. If you're not sure what this means, check out the hint below! </p>
+</li>
+</li>
+<li class="sub-task">
+<h4 class="sub-task-title">5. Calculate k-anonymity</h4>
+<p class="sub-task-description">We want to make sure that along a number of key indirect identifiers there are enough observations that no observation is unique -- this will ensure that the data is much harder to link to other, outside datasets. Calculate the k-anonymity of the dataset along a number of key indirect identifiers (gender, month of birth, others?) and output the results to a textfile. </p>
+</li>
+<li class="sub-task">
+<h4 class="sub-task-title">6. Create a data publication de-identification plan</h4>
+<p class="sub-task-description">After the steps above, you feel confident that the data is baseline de-ided enough to share with the PIs unencrypted. But as we noted above, there is more de-identification that the PIs will want to do before they publish the data. Create a text document (texfile, PDF, word, markdown, etc.) with suggestions for the PI on further de-identification they can do before publishing the data. This can be combined with the k-anonymity exercise above to suggest potential variables! </p>
+</li>
+</ul>
+</li>
+
+
+<li class="task-item">
+<h3 class="task-title">
+Data Cleaning
+<span class="task-count">5 subtasks</span>
+</h3>
+<p class="task-description">
+Non-reproducible Nick did some data cleaning somewhere, but he lost his coding file, and the dataset that he created 🙄 So we need to do some ourselves. There's a blank cleaning file in the repository, but that's it. Similar to the de-identification tasks above, these tasks can be done across one or several scripts, but if across several, they should all be called in by a main R or do-file. The sub-tasks are described below, but there's also a (mostly) blank de-id do-file and R script in the folder that contains the sub-tasks as well. **Meta note**: *This published data was largely clean already, so the tasks below are not necessarily recommended steps for dealing with this specific data (it's very usable already!), but rather excuses for us to practice our data cleaning steps.*
+</p>
+
+<ul class="sub-tasks">
+<li class="sub-task">
+<h4 class="sub-task-title">1. Rename and label variables</h4>
+<p class="sub-task-description">The end_aser_read_* and end_aser_math_* variables are not labeled, and are not very intuitively named. Rename the ones ending in a number, and label all the variables. </p>
+</li>
+<li class="sub-task">
+<h4 class="sub-task-title">2. Encode and label values of categorical variables</h4>
+<p class="sub-task-description">The "base_standard" variable is currently a numeric variable, but because it is a grade level we want to treat it as a discrete factor as opposed to a continuous numeric variable. Encode it, but then label the values as "first standard", "second standard", etc., so that new users of the dataset understand what's going on. </p>
+</li>
+<li class="sub-task">
+<h4 class="sub-task-title">3. Recode missing values</h4>
+<p class="sub-task-description">In this survey's context, there was only one reason that data may have been missing, and so there is only one code for missing data (-222). For the fathers_occupation variable, let's pretend that half of the respondents that we have missing data for didn't answer, a quarter didn't know, and a quarter were missing when that question was asked. Recode the missing values to reflect this distribution! </p>
+</li>
+<li class="sub-task">
+<h4 class="sub-task-title">4. Generate a new attendance variable</h4>
+<p class="sub-task-description"> The atten_jan and atten_dec variables note the days that the student was absent in January and December, respectively. We already have variables for overall count, but we want to create new variables that count the number of absences in the first 15 days of each month. Use string methods to create a new variable out of these two that tracks that information. </p>
+</li>
+<li class="sub-task">
+<h4 class="sub-task-title">5. Generate a new above median attendance variable</h4>
+<p class="sub-task-description"> The PIs want to conduct heterogeneous treatment effects based on *baseline* attendance level. Using the baseline days missed variable. create a new variable that marks whether a student is above median attendance overall (combined over the two months). Make sure to do it in a way that if new data is added to the dataset, or if the sample changes, the code can be run and the variable will still be valid!</p>
+</li>
+</ul>
+</li>
+
+<li class="task-item">
+<h3 class="task-title">
+Data visualization
+<span class="task-count">5 subtasks</span>
+</h3>
+<p class="task-description">
+Ok now we've prepared our data and package, and we can get to the meat of our crunch time:
+ - The PIs are preparing for the first round of analysis 
+ - The implementation partner keeps emailing for summary statistics on the sample
+As we go through the tasks below, remember that it is **KEY** to code the following
+in a \~reproducible\~ and \~automated\~ way in case the underlying data changes slightly, or you want to make
+small changes to the tables/graphs in the future (you will!)
+</p>
+
+<ul class="sub-tasks">
+<li class="sub-task">
+<h4 class="sub-task-title">1. Clean up the graph in the "standard_size_graph" file</h4>
+<p class="sub-task-description">	The project's government partners are working on another project and want to understand better the relationship between standard size and test scores. In order to not confound the relationship with the results of the study, the PIs suggest that we should use the baseline data. Let's start our exploration by showing the relationship visually. Non-reproducible Nick, in a move that surprises no one, just wrote one command in the "standard_size_graph" file and left it at that. No export, totally uninformative scatter plot, classic Nick. Try to make an informative graph out of the two variables! You should explore the data a bit in order to understand the relationship (or lack thereof?), and then decide on the best way to graphically represent it. This is pretty open, but if you want hints feel free to look below!</p>
+</li>
+<li class="sub-task">
+<h4 class="sub-task-title">2. Create a graph/design template for the project</h4>
+<p class="sub-task-description">We don't want every graph to be ad-hoc and look completely different based on who made it!
+ Take some of the learnings from the above task in order to wrap them into globals/guidance for the research team on the design of graphs for the project. This can be either globals in the file edited above, in a new file, a text file that contains general guidance on colors, scheme, etc., or a combination of the above!</p>
+</li>
+<li class="sub-task">
+<h4 class="sub-task-title">3. Create a table with summary statistics by block</h4>
+<p class="sub-task-description">Our government partners are interested in summary statistics by block for a few variables: i) Student-teacher ratio; ii) School attendance; and iii) Baseline reading scores. Write a coding file from scratch to reproducibly output these statistics in a table that clearly communicates the statistics and their uncertainty. This isn't for academic publication, so it doesn't have to be in LaTeX (but it can!), so feel free to choose the reproducible method of your choice!</p>
+</li>
+<li class="sub-task">
+<h4 class="sub-task-title">4. Start creating a final balance table for the paper</h4>
+<p class="sub-task-description">You checked balance in the power/randomization lab, but now that the project is over the PIs want to start work on the final balance table that will be included in the paper. Because of that, it should be exported in LaTeX. Non-reproducible Nick, in a very rare stroke of effort, actually started coding this up in the balance_table do/R file. Using this as a starting point, fill out the file to create a LaTeX table that (for now) just exports the baseline mean of the variable and the estimate and standard error for balance comparisons between the TaRL only group (RE in the data) and the control. The variables that we're doing balance on are already in a global in the file. Make sure to create output in a reproducible way! </p>
+</li>
+<li class="sub-task">
+<h4 class="sub-task-title">5. [More difficult] Explore attrition </h4>
+<p class="sub-task-description">The PIs have already made sure that attrition is not correlated with treatment status, but they want to explore attrition a bit more, to see what else it may have been correlated with -- this could help with better data collection in the future! To do this, first explore the data a bit; then, decide on what the best way to present the information to the PIs is (tables, graphs, both); finally, start coding the output up in a reproducible way! </p>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+
+<br>
+
+
+
+# Hints:
+
+## Folder structure
+<details class="cl-guide"><summary> **Hints** </summary>
+
+ - Task 1: 
+    - We need at least data, code, and output folders. Within those, we'll probably need some subfolders! In data, typical subfolders include raw, clean, and analysis, and in output, you will be creating both tables and figures later...
+    - Adding 00_, 01_, 02_, etc. in front of file/folder names will help organize them within the topfolder in an intuitive way
+  
+  - Task 2:
+    - I trust you to move files
+
+  - Task 3:
+    - Think back to the Coding Best Practices lecture I know you all watched -- the main pieces of a main do-file/R script are i) setting file path globals; ii) importing packages; and iii) calling the project's other scripts in order. We obviously don't have other scripts yet, but we can use this to structure our thoughts on how we'll call them in once they're written.
+
+</details>
+
+## De-identification
+<details class="cl-guide"><summary> **Hints** </summary>
+
+ - Task 1:
+    - The main thing to remember here is the definition of direct PII: any variable that uniquely identifies a respondent -- this can be names, government ids, emails,...
+    - Once you identify the variables, masking them should be pretty straightforward, but here's a wrench: what about missing values?
+      - We don't have any missings in the direct PII in this dataset, but in general you want to preserve that information *as long as* the missingness itself is not identifying
+      
+  - Task 3:
+    - Here's some sample Stata code from encoding a different variable from a different RST lab... how would you adapt it? What are the pieces that are going to be different for a variable that has more than two values?
+    ```{Stata, echo=TRUE, eval=FALSE}
+    *** We first create the crosswalk by collapsing down to unique values and assigning
+      * a random variable
+      preserve
+      keep sex 
+      duplicates drop
+      drop if sex=="" //We want to preserve information on missingness!
+      gen rand = runiform()
+      sort rand
+      gen sex_encoded = _n - 1 // This will make it 0 and 1 in a random order
+      drop rand
+      export delimited ${id_data}/gender_crosswalk.csv, replace
+      restore
+      
+      *** Then we want to merge our crosswalk in to use the values and drop the original
+      * variable:
+      preserve
+      import delimited ${id_data}/gender_crosswalk.csv, clear
+      tempfile cross
+      save "`cross'"
+      restore
+      
+      merge m:1 sex using "`cross'"
+      drop _merge
+      sort id
+      order sex_encoded, after(sex)
+      drop sex
+      la var sex_encoded "De-identified sex variable; groups are maintained"
+    ```
+
+  - Task 4:
+    - This task involves doing a few different things: 
+        - i) understanding the data, and coming up with a good cutoff for top-coding -- typically running a combination of a histogram of the variable + a summarization that includes percentiles will be enough to understand where a good cutoff might be. 
+        - ii) Creating that cutoff -- we want to create a global in case we want to change this in the future!
+        - iii) Top-coding the variable using the cutoff -- the most complex piece here will be dealing with data types. The current variable is numeric, but we want to include more than numeric information here! There are two ways to handle this:
+            - Keeping it as a numeric variable, and the documenting clearly in the label and readme that the variable is topcoded
+            - Changing it to a string and thereby allowing for including values like ">250" in addition to normal values like "54" -- this makes it clear to users that the variable is top-coded, and allows them to decide what to do with the variable.
+    
+  - Task 5:
+    - Remember the definition of k-anonymity: the minimum number of observations that have the same values along a set of potentially identifiable variables
+    - ``bysort`` in Stata and ``group_by()`` in R are your best friends here!
+</details>
+
+## Data cleaning
+<details class="cl-guide"><summary> **Hints** </summary>
+  - Task 1:
+    - This should be straightforward in Stata; in R, the "labelled" package can be used to label variables
+    
+  - Task 3:
+    - Again pretty straightforward in Stata; in R we'll want to use special codes and value labels
+    
+  - Task 4:
+    - This is a string variable with a lot of information contained within it! We're going to need to use some string methods in order to generate our variable. The most important is probably string split you can use the ``str_split()`` command in R and the ``split`` command in Stata.
+    
+  - Task 5:
+    - There may be an example of code for this in the coding best practices slides...
+
+</details>
+## Data visualization
+<details class="cl-guide"><summary> **Hints** </summary>
+
+  - Task 1: One of the first problems is that there is a lot of data on the graph, and it's hard to understand what's going on. That's more or less two problems in one. Let's take them one at a time:
+      - Lot of data: What if we bin the x-axis?
+      - Hard to understand what's going on: We're fundamentally trying to get at the relationship between two variables -- if we were making a table we might run a regression to find the linear association... I wonder if there's a way to display that *LINERAR* relationship graphically...
+      - Beyond those two, have fun! The ``schemes`` package in Stata is a good way to quickly make graphs look better, and ggplot in R has a lot of built in functions and themes for quickly improving the aesthetics of a graph.
+    
+  - Task 2:
+    - Globals will be your best friend here! Some pieces of the design that you might want to standardize:
+        - The overall design *scheme* -- you can use the ``schemes`` package in stata and the ``theme()`` command in ggplot in R
+        - The colors to be used -- in both Stata and R you can specify colors either in hex codes or by their names
+        - More graph-type-specific options, like bar gap, width, etc. for bar graphs, confidence interval size/display type for coefficient plots, line types and colors for line charts, etc.
+        
+  - Task 3:
+    - The first task here will be to think through what specific statistics we want to export: means by group, medians, fuller percentiles, etc.? What will be most informative for our partners? How are we going to represent uncertainty?
+    - Next, we need to decide on the structure of the table that will hold our statistics -- we have a decently clear structure (we're going to need blocks on one of the axes), but how are you going to structure the other statistics?
+    - Then we need to decide how we're going to export the statistics -- this will help us determine how we structure our loop for creating and exporting the statistics. We can either use standard packages (e.g., ``estout`` in Stata, ``stargazer`` in R, or we can export the statistics by writing in exporting commands (likely LaTeX) in our loop -- if interested in this one and don't know where to start, look at balance_table.do/R and the hints for Task 4)
+    - Finally we want to wrap our analysis and exporting into a loop. 
+        - In Stata the general structure will be to run the commands for summary statistics, use the stored values (accessing with the `r()` locals after creating the statistic), and then either store those all using the ``eststo`` command and export at end (if using estout/esttab -- simple example below), or create locals named with the variable and stat name to store the results and import them iteratively to the table in the loop (if using automated LaTeX -- example in Task 4 hint).
+        - In R, similarly, we can either use preset packages (such as stargazer) to export everything at once (example below), or we can loop through estimates and store them in a vector (example in hints for Task 4).
+      
+    Example stata exporting with estout:
+```{Stata, echo=TRUE, eval=FALSE}
+    sysuse auto, clear
+
+eststo domestic: quietly estpost summarize ///
+    price mpg weight headroom trunk if foreign == 0
+eststo foreign: quietly estpost summarize ///
+    price mpg weight headroom trunk if foreign == 1
+    
+esttab domestic foreign, ///
+cells("mean(pattern(1 1) fmt(2)) sd(pattern(1 1)) t(pattern(0 0) par fmt(2))") ///
+label
+  
+```
+  Example R exporting with stargazer:
+```{R, echo=TRUE, eval=FALSE}
+mydata <- mtcars
+stargazer(subset(mydata[c("mpg","hp","drat")], mydata$am==1),
+          title="Manual transmission", type = "text", digits=1, out="table7.txt")
+```
+
+  - Task 4:
+    - In Stata we can do this by putting our variables in a loop, storing the output in locals, and then looping through the locals to iteratively export to a .tex file. I've put example code for a balance table from one of my own projects below -- see if you can adapt it to run balance on the variables specified in the file!
+    - In R we can do this by putting our variables in a loop, storing the output in a running vector (c()), and then writing the vector to a text file at the end. I've put example code from a table from one of my own projects below (not from balance) -- see if you can adapt it to run balance on the variables specified in the file!
+
+
+ Example Stata balance table:
+```{Stata, echo=TRUE, eval=FALSE}
+local baseline_vars_rct mult_pi disconnected b_F2_index b_F2_dummy b_F1_index b_F1_dummy b_all_PTR_index $covs
+//local baseline_vars_collab em_opened_any em_opened_tot em_opened_perc visited_any visited_tot visited_perc
+
+cap file close f
+file open f using "$tf/Table_Balance.tex", write replace
+file write f " \begin{tabular}{lcccccc}" _n "\hline" _n " \hline" _n "& \multicolumn{3}{c}{Mean} & \multicolumn{3}{c}{Differences}\\"_n "\cmidrule(r){2-7} "_n " & Control & Salience & Lottery & Salience v & Lottery v & Salience v\\" _n  " & N=1508& N=1486&N=1487 & Control & Control & Lottery \\" _n "\cmidrule(r){2-7} " _n " & (1) & (2) & (3) & (4) & (5) & (6) & (7) & (8) & (9) \\"_n  "\hline" _n
+******** First balance at the RCT level
+preserve
+duplicates drop rct_id, force
+local z = ""
+foreach x of local baseline_vars_rct {
+	local lab: var label `x'
+	forvalues y = 0/2{ //For T1 vs. T2
+		if `y' == 0{
+			local z = "Control"
+		}
+		else if `y' == 1 {
+			local z = "Salience"
+		}
+		else if `y' == 2{
+			local z = "Lottery"
+		}
+		qui: summ `x' if treat == `y' //Baseline means
+		local mean_`x'_`z' = string(`r(mean)', "%9.2f")
+		di "mean of `x' for `z' group: `mean_`x'_`z''"
+		local sd_`x'_`z' = string(`r(sd)', "%9.2f")
+		di "SD of `x' for `z' group: `sd_`x'_`z''"
+		di ""
+		count if treat == `y' & `x' !=. 
+		local N_`x'_`z' = string(`r(N)', "%9.0f")
+}
+
+
+	qui: reg `x' treat_1 treat_2 mult_pi //Baseline differences between Lottery and control and Salience treat_2 control 
+	qui: lincom _b[treat_1]
+	local est_`x'_mat = string(r(estimate), "%4.3f")
+	local se_`x'_mat = string(r(se), "%4.3f")
+	local p_`x'_mat =string((2 * ttail(e(df_r), abs(r(estimate)/r(se)))), "%4.3f")
+
+	di "Diff of `x' for materials: `est_`x'_mat'"
+	di "SE of diff of `x' for materials: `se_`x'_mat'"
+	di ""
+	
+	qui: lincom _b[treat_2]
+	local est_`x'_cont = string(r(estimate), "%4.3f")
+	local se_`x'_cont = string(r(se), "%4.3f")
+	local p_`x'_cont = string((2 * ttail(e(df_r), abs(r(estimate)/r(se)))), "%4.3f")
+	di "Diff of `x' for Salience: `est_`x'_cont'"
+	di "SE of diff of `x' for Salience: `se_`x'_cont'"
+	di ""
+
+	qui: reg `x' treat_0 treat_2 mult_pi //Baseline differences between Lottery and Salience
+	qui: lincom _b[treat_2]
+	local est_`x'_trt = string(r(estimate), "%4.3f")
+	local se_`x'_trt = string(r(se), "%4.3f")
+	local p_`x'_trt = string((2 * ttail(e(df_r), abs(r(estimate)/r(se)))), "%4.3f")
+
+	di "Diff of `x' for treatment grps: `est_`x'_trt'"
+	di "SE of diff of `x' for treatment grps: `se_`x'_trt'"
+	di ""
+	
+			foreach t in mat cont trt{
+		 if `p_`x'_`t'' < 0.01 {
+				di "`est_`x'_`t''"
+				local est_`x'_`t' = "`est_`x'_`t''***"
+				}
+
+		if `p_`x'_`t'' < 0.05 & `p_`x'_`t'' >= 0.01 {
+				di "`est_`x'_`t''"
+				local est_`x'_`t'= "`est_`x'_`t''**"
+				}
+
+		 if `p_`x'_`t'' < 0.1 & `p_`x'_`t'' >= 0.05 {
+				di "`est_`x'_`t''"
+				local est_`x'_`t' = "`est_`x'_`t''*"
+				}
+			}
+
+	
+		
+	** Exporting results
+	file write f _n "`lab': & `mean_`x'_Control' & `mean_`x'_Salience' & `mean_`x'_Lottery' & `est_`x'_cont' & `est_`x'_mat' & `est_`x'_trt'\\"  _n _n " &[`sd_`x'_Control'] & [`sd_`x'_Salience'] & [`sd_`x'_Lottery'] & (`se_`x'_cont') & (`se_`x'_mat') & (`se_`x'_trt')\\" _n
+}
+restore
+
+file write f "\hline" _n "\hline" _n "\end{tabular}" _n
+
+file close f
+  
+```
+
+Example R table export:
+```{R, echo=TRUE, eval=FALSE}
+######## Start summary stats table:
+summ <- c( '\\begin{tabular}{lcccc}',
+          '\\hline','\\hline',
+           'Variable & N & Sample Mean & Sample SD \\\\',
+           '\\hline', '\\emph{Respondent Type:} \\\\')
+
+######### User roles
+for (i in 1:nrow(role)){
+  fll <- paste0('\\hspace{3mm} ',role$s1_q8_user_role_shrt[i],
+                ' & ',sum(!is.na(self$s1_q8_user_role)), ' & ', round(role$prop[i],3),
+              '&', round(role$sd[i],3), '\\\\')
+  summ <- c(summ,fll)
+}
+
+
+######## Highest degree
+summ <- c(summ, '\\emph{Highest degree earned:} &&&&\\\\')
+
+for (i in 1:nrow(hd)){
+  fll <- paste0('\\hspace{3mm} ',hd$s1_q9_highest_degree[i],
+                ' & ',sum(!is.na(self$s1_q9_highest_degree)), ' & ', round(hd$prop[i],3),
+                '&', round(hd$sd[i],3), '\\\\')
+  summ <- c(summ,fll)
+}
+
+##### Years since degree
+summ <- c(summ,paste0('Years since degree & ',sum(!is.na(self$s1_q10_years_since_degree)),
+                      ' & ', round(mean(self$s1_q10_years_since_degree,na.rm=T),3),
+                      '&', round(sd(self$s1_q10_years_since_degree,na.rm=T),3),
+               '\\\\'))
+
+##### Type of organizations
+summ <- c(summ, '\\emph{Organization type:} &&&&\\\\')
+
+for (i in 1:nrow(ot)){
+  fll <- paste0('\\hspace{3mm} ',ot$s1_q7_org_type[i],
+                ' & ',sum(!is.na(self$s1_q7_org_type)), ' & ', round(ot$prop[i],3),
+                '&', round(ot$sd[i],3), '\\\\')
+  summ <- c(summ,fll)
+}
+
+
+#### Registries used and # of registrations
+summ <- c(summ,paste0('\\# of other registries used & ',
+                      sum(!is.na(self$non_aea_used)), '&',
+                      round(mean(self$non_aea_used,na.rm=T),3), '&',
+                      round(sd(self$non_aea_used,na.rm=T),3),
+               '\\\\'))
+
+summ <- c(summ,paste0('\\# of total registrations & ', 
+                      sum(!is.na(self$s1_q_12_how_many_registered)), '&',
+                      round(mean(self$s1_q_12_how_many_registered,na.rm=T),3), 
+                      '&',
+                      round(sd(self$s1_q_12_how_many_registered,na.rm=T),3),
+                      '\\\\'))
+summ <- c( summ,  '\\hline',
+           '\\hline',
+           '\\end{tabular}')
+
+write.table(summ, paste0('paper/Tables/Qual_summary_table.tex'), row.names = F,col.names = F,quote = F)
+```
+
+  - Task 5: You should have enough hints from the other tasks, but you may need to use all of your knowledge gained so far to do this!
+
+</details>
+
