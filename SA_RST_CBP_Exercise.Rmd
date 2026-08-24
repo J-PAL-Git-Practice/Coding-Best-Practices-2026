@@ -193,7 +193,7 @@ margin-left: 8px;
 </style>
 
 # Introduction 
-This exercise is designed to give you a practical application of Coding Best Practices (folder structure, data cleaning, de-identification), git and github, and data visualization in Stata and R. In this exercise, you'll use data from a past J-PAL randomized evaluation of two education programs in India: Continuous and Comprehensive Evaluation (CCE) and Teaching at the Right Level (TaRL) -- this is roughly data you used in the power and randomization lab.  You’ll work in groups to complete the tasks assigned to you in this markdown file. This will require good coding, better collaboration, and of course watching the pre-recorded research transparency lecture if you haven't already. 
+This exercise is designed to give you a practical application of Coding Best Practices (folder structure, data cleaning, de-identification), git and github, and data visualization in Stata and R. In this exercise, you'll use data from a past J-PAL randomized evaluation of two education programs in India: Continuous and Comprehensive Evaluation (CCE) and Teaching at the Right Level (TaRL) -- this is roughly data you used in the power and randomization lab.  You’ll work by yourself or with your table to complete the tasks assigned to you in this markdown file. This will require good coding, good collaboration, and of course watching the pre-recorded research transparency lecture if you haven't already. 
 
 The study context is the same that we've been working with all week (TaRL and CCE), but I've copied the description from the power and randomization lab below in case you'd like a refresher! 
 
